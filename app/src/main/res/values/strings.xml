@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Krypto</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="login">Login</string>
+    <string name="don_t_have_an_accpunt">Don\'t have an account?</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="sign_in">Sign In</string>
+    <string name="already_have_an_account">Already have an Account?</string>
+    <string name="wallets">Wallets</string>
+    <string name="profile">Profile</string>
+    <string name="prices">Prices</string>
+    <string name="current_balance">Current Balance</string>
+    <string name="usd">USD</string>
+    <string name="send">Send</string>
+    <string name="receive">Receive</string>
+    <string name="currency">Currency</string>
+    <string name="scan_qr">Scan QR code to send Bitcoin</string>
+    <string name="create_address">Create Address</string>
+    <string name="cancel">Cancel</string>
+    <string name="address_label">Address Label</string>
+    <string name="enter_address_tv">Enter address label to create Bitcon address</string>
+    <string name="notification">Notification</string>
+    <string name="label">Label</string>
+    <string name="pending_r_d_bal">Pending R\'d Bal</string>
+</resources>

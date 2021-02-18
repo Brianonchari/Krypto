@@ -1,0 +1,16 @@
+.idea/
+/build
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.gradle/
+.DS_Store
+gradle.properties
+google-services.json
+local.properties
+
+#Proguard folder
+proguard/

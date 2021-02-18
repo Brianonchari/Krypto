@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="negative_item_margin">-2dp</dimen>
+    <dimen name="card_elevation">4dp</dimen>
+    <dimen name="card_radius">4dp</dimen>
+    <dimen name="button_radius">10dp</dimen>
+    <dimen name="wallet_card_margin">30dp</dimen>
+
+
+    <!--    elevation for the toolbar-->
+    <dimen name="main_bar_elevation">6dp</dimen>
+    <dimen name="bar_elevation">0dp</dimen>
+    <dimen name="margin_small">8dp</dimen>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_large_margin">44dp</dimen>
+    <dimen name="trip_image_height">150dp</dimen>
+
+    <dimen name="button_height">55dp</dimen>
+</resources>
