@@ -19,7 +19,10 @@ class FakeKryptoRepositoryAndroidTest:BlockIORepository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getCachedBalance(): Balance {
+    //    override  fun getCachedBalance(): Balance {
+//        TODO("Not yet implemented")
+//    }
+    override fun getCachedBalance(): LiveData<Balance> {
         TODO("Not yet implemented")
     }
 

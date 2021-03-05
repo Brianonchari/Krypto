@@ -34,7 +34,7 @@ class WalletViewModel @Inject constructor(
     val createAddress:LiveData<Event<Resource<Data>>>
     get() = _createAddress
     private val _balance = MutableLiveData<Event<Resource<Balance>>>()
-    private val _localBal = MutableLiveData<Event<Resource<Balance>>>()
+    private val _localBal = MutableLiveData<Event<Resource<LiveData<Balance>>>>()
 
     val getCachedAddresses = repository.observeAllAddresses()
 

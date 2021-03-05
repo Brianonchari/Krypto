@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 /**
  *Created by Brian Onchari on 13/01/2021.
  */
-@Entity
+@Entity(tableName = "address")
 data class Address(
     val address: String,
     val available_balance: String,

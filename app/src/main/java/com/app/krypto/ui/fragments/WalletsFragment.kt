@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Toast
-import androidx.core.view.accessibility.AccessibilityEventCompat.setAction
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,12 +14,12 @@ import androidx.recyclerview.widget.ItemTouchHelper.LEFT
 import androidx.recyclerview.widget.ItemTouchHelper.RIGHT
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.Fade
+import androidx.transition.Slide
+import androidx.transition.TransitionManager
 import com.app.krypto.R
 import com.app.krypto.adapters.AddressRecyclerAdapter
-import com.app.krypto.databinding.AddressDialogBinding
-import com.app.krypto.databinding.FragmentWalletBinding
-import com.app.krypto.databinding.ReceiveDialogBinding
-import com.app.krypto.databinding.SendDialogBinding
+import com.app.krypto.databinding.*
 import com.app.krypto.ui.viewmodels.WalletViewModel
 import com.app.krypto.utils.Status
 import com.google.android.material.snackbar.Snackbar
@@ -29,25 +28,26 @@ import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
 import com.journeyapps.barcodescanner.BarcodeEncoder
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class WalletsFragment : Fragment(R.layout.fragment_wallet) {
-    lateinit var viewModel:WalletViewModel
+    lateinit var viewModel: WalletViewModel
     val addressRecyclerAdapter = AddressRecyclerAdapter()
     private var _binding: FragmentWalletBinding? = null
     private val binding get() = _binding!!
+    private var visibility = false
     private var menu: Menu? = null
+
 
     companion object {
         private const val TAG = "WalletsFragment"
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         setHasOptionsMenu(true)
         _binding = FragmentWalletBinding.inflate(inflater, container, false)
@@ -69,9 +69,9 @@ class WalletsFragment : Fragment(R.layout.fragment_wallet) {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.notification -> Toast.makeText(
-                requireContext(),
-                "Move to notifications",
-                Toast.LENGTH_SHORT
+                    requireContext(),
+                    "Move to notifications",
+                    Toast.LENGTH_SHORT
             ).show()
         }
         return super.onOptionsItemSelected(item)
@@ -86,41 +86,41 @@ class WalletsFragment : Fragment(R.layout.fragment_wallet) {
         sendBitcoin()
         createNewBitcoinAddress()
         setupRecyclerview()
-
+        slideEffectAnimation()
     }
 
-    private val itemTouchCallBack= object :ItemTouchHelper.SimpleCallback(
-        0,LEFT or RIGHT
-    ){
+    private val itemTouchCallBack = object : ItemTouchHelper.SimpleCallback(
+            0, LEFT or RIGHT
+    ) {
         override fun onMove(
-            recyclerView: RecyclerView,
-            viewHolder: RecyclerView.ViewHolder,
-            target: RecyclerView.ViewHolder
-        )=true
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+        ) = true
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
             val pos = viewHolder.layoutPosition
             val item = addressRecyclerAdapter.addressItems[pos]
-            viewModel?.deleteAddressItem(item)
+            viewModel.deleteAddressItem(item)
             /**Delete Address from local db and archive it from the api**/
-            Snackbar.make(requireView(),"Successfully archived an address",Snackbar.LENGTH_LONG)
-                .apply {
-                    setAction("UNDO"){
-                        viewModel?.insertAddress(item)
-                        Log.d(TAG, "onSwiped: Swipe works")
-                        // TODO: 08/02/2021 Unarchive address from the server
+            Snackbar.make(requireView(), "Successfully archived an address", Snackbar.LENGTH_LONG)
+                    .apply {
+                        setAction("UNDO") {
+                            viewModel.insertAddress(item)
+                            Log.d(TAG, "onSwiped: Swipe works")
+                            // TODO: 08/02/2021 Unarchive address from the server
+                        }
+                        show()
                     }
-                    show()
-                }
         }
     }
 
     private fun createNewBitcoinAddress() {
         binding.fabAddAddress.setOnClickListener {
             val mBinding =
-                AddressDialogBinding.inflate(LayoutInflater.from(parentFragment?.requireContext()))
+                    AddressDialogBinding.inflate(LayoutInflater.from(parentFragment?.requireContext()))
             val mBuilder = AlertDialog.Builder(requireContext())
-                .setView(mBinding.root)
+                    .setView(mBinding.root)
             val mAlertDialog = mBuilder.show()
             mBinding.createAddress.setOnClickListener {
                 mAlertDialog.dismiss()
@@ -135,9 +135,9 @@ class WalletsFragment : Fragment(R.layout.fragment_wallet) {
     private fun sendBitcoin() {
         binding.send.setOnClickListener {
             val binding =
-                SendDialogBinding.inflate(LayoutInflater.from(parentFragment?.requireContext()))
+                    SendDialogBinding.inflate(LayoutInflater.from(parentFragment?.requireContext()))
             val mBuilder = AlertDialog.Builder(requireContext())
-                .setView(binding.root)
+                    .setView(binding.root)
             val mAlertDialog = mBuilder.show()
             // TODO: 20/01/2021 dialog operations here
         }
@@ -146,9 +146,9 @@ class WalletsFragment : Fragment(R.layout.fragment_wallet) {
     private fun receiveBitcoin() {
         binding.receive.setOnClickListener {
             val binding =
-                ReceiveDialogBinding.inflate(LayoutInflater.from(parentFragment?.requireContext()))
+                    ReceiveDialogBinding.inflate(LayoutInflater.from(parentFragment?.requireContext()))
             val mBuilder = AlertDialog.Builder(requireContext())
-                .setView(binding.root)
+                    .setView(binding.root)
             val mAlertDialog = mBuilder.show()
             val data = "BITCOIN_ADDRESS"
             val textToSend = StringBuilder()
@@ -156,7 +156,7 @@ class WalletsFragment : Fragment(R.layout.fragment_wallet) {
             val multiFormatWriter = MultiFormatWriter()
             try {
                 val bitMatrix =
-                    multiFormatWriter.encode(textToSend.toString(), BarcodeFormat.QR_CODE, 600, 600)
+                        multiFormatWriter.encode(textToSend.toString(), BarcodeFormat.QR_CODE, 600, 600)
                 val barcodeEncoder = BarcodeEncoder()
                 val bitmap: Bitmap = barcodeEncoder.createBitmap(bitMatrix)
                 binding.qrImageview.setImageBitmap(bitmap)
@@ -166,7 +166,12 @@ class WalletsFragment : Fragment(R.layout.fragment_wallet) {
             }
         }
     }
-//
+
+    private fun slideEffectAnimation() {
+        val transition = Slide()
+        TransitionManager.beginDelayedTransition(binding.addressRecyclerview, transition)
+    }
+
     private fun setupRecyclerview() {
         val rvAddress = binding.addressRecyclerview
         rvAddress.apply {
@@ -176,28 +181,29 @@ class WalletsFragment : Fragment(R.layout.fragment_wallet) {
         }
     }
 
-    private fun createAddress(){
-        val mBinding =AddressDialogBinding.inflate(LayoutInflater.from(parentFragment?.requireContext()))
+
+    private fun createAddress() {
+        val mBinding = AddressDialogBinding.inflate(LayoutInflater.from(parentFragment?.requireContext()))
         val label = mBinding.addressLabel.text.toString()
-        if(label.isEmpty()){
+        if (label.isEmpty()) {
             return
         }
-        viewModel?.createNewAddress(label)
+        viewModel.createNewAddress(label)
     }
 
     /**Observe livedata and display data **/
     private fun subscribeToObservers() {
-        viewModel?.createAddress?.observe(viewLifecycleOwner, Observer {
-            it.getContentIfNotHandled()?.let {result->
-                when(result.status){
-                    Status.SUCCESS ->{
-                        val label = result.data?.label
+        viewModel.createAddress.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let { result ->
+                when (result.status) {
+                    Status.SUCCESS -> {
+
                     }
 
-                    Status.ERROR ->{
+                    Status.ERROR -> {
                         Log.d(TAG, "subscribeToObservers: Error")
                     }
-                    Status.LOADING ->{
+                    Status.LOADING -> {
                         /* NO-OP */
                     }
                 }
@@ -205,16 +211,16 @@ class WalletsFragment : Fragment(R.layout.fragment_wallet) {
 
         })
 
-        viewModel?.getCachedAddresses?.observe(viewLifecycleOwner, Observer {
+        viewModel.getCachedAddresses.observe(viewLifecycleOwner, Observer {
             addressRecyclerAdapter.addressItems = it
         })
         /**Observe Balance**/
-        viewModel?.availableBalance?.observe(viewLifecycleOwner, Observer {
+        viewModel.availableBalance.observe(viewLifecycleOwner, Observer {
             val availabaleBalance = it ?: "0.00BTC"
             val balance = "$availabaleBalance BTC"
             binding.balance.text = balance
         })
-        viewModel?.pendingReceivedBal?.observe(viewLifecycleOwner, Observer {
+        viewModel.pendingReceivedBal.observe(viewLifecycleOwner, Observer {
             val pendingReceivedBal = it ?: "0.00BTC"
             val pendingBalance = "$pendingReceivedBal BTC"
             binding.pendingBalance.text = pendingBalance

@@ -24,4 +24,5 @@
     <string name="notification">Notification</string>
     <string name="label">Label</string>
     <string name="pending_r_d_bal">Pending R\'d Bal</string>
+    <string name="addresses">Addresses</string>
 </resources>

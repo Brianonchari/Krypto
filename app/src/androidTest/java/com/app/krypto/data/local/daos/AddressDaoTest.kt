@@ -1,14 +1,11 @@
 package com.app.krypto.data.local.daos
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.app.krypto.data.local.AppDatabase
 import com.app.krypto.data.local.getOrAwaitValue
 import com.app.krypto.data.remote.responses.Address
 import com.app.krypto.launchFragmentInHiltContainer
-import com.app.krypto.ui.fragments.PriceDetailFragment
-import com.app.krypto.ui.fragments.ProfileFragment
 import com.app.krypto.ui.fragments.WalletsFragment
 import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -19,14 +16,12 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import javax.inject.Inject
 import javax.inject.Named
 
 /**
  *Created by Brian Onchari on 28/01/2021.
  */
-@RunWith(AndroidJUnit4::class)
 @SmallTest
 @ExperimentalCoroutinesApi
 @HiltAndroidTest
@@ -60,7 +55,7 @@ class AddressDaoTest {
     }
 
     @Test
-    fun insertAddressLists() = runBlockingTest {
+     fun insertAddressLists() = runBlockingTest {
         val addressItem1 = Address("address", "5", true, "label", "0.000", user_id = 1)
         val addressItem2 = Address("address", "5", true, "label", "0.000", user_id = 2)
         val addressItem3 = Address("address", "5", true, "label", "0.000", user_id = 3)
@@ -81,7 +76,7 @@ class AddressDaoTest {
 
     @Test
     fun testLaunchFragmentInHiltContainer(){
-        launchFragmentInHiltContainer<PriceDetailFragment> {
+        launchFragmentInHiltContainer<WalletsFragment> {
 
         }
     }

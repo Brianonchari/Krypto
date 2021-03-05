@@ -8,9 +8,7 @@ import javax.inject.Inject
 /**
  *Created by Brian Onchari on 22/01/2021.
  */
-class KryptoFragmentFactory @Inject constructor(
-
-) : FragmentFactory() {
+class KryptoFragmentFactory @Inject constructor() : FragmentFactory() {
     override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
         return when (className) {
             WalletsFragment::class.java.name -> WalletsFragment()

@@ -14,7 +14,7 @@ interface BlockIORepository {
     suspend fun getBitcoinBasePrices():Resource<PricesResponse>
     suspend fun getAddresses(): Resource<AddressesResponse>
     suspend fun insertBalance(balance: Balance)
-    suspend fun getCachedBalance(): Balance
+    fun getCachedBalance(): LiveData<Balance>
 
     suspend fun createNewAddress(label:String):Resource<CreateAddressResponse>
     suspend fun insertAddresses(address:List<Address>)

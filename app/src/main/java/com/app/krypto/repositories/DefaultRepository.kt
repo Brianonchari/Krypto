@@ -104,7 +104,16 @@ class DefaultRepository @Inject constructor(
         balanceDao.insertBalance(balance)
     }
 
-    override suspend fun getCachedBalance(): Balance {
+    //    override suspend fun getCachedBalance(): Balance {
+//        return balanceDao.getBalance()
+//    }
+//    override  fun getCachedBalance(): Balance {
+//        return balanceDao.getBalance()
+//    }
+//    override fun getCachedBalance(): Balance {
+//        TODO("Not yet implemented")
+//    }
+    override fun getCachedBalance(): LiveData<Balance> {
         return balanceDao.getBalance()
     }
 

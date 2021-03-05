@@ -17,7 +17,7 @@ interface BalanceDao {
     suspend fun delete(balance: Balance)
 
     @Query("SELECT * FROM Balance")
-    suspend fun getBalance(): Balance
+     fun getBalance(): LiveData<Balance>
     @Query("SELECT available_balance FROM BALANCE")
     fun observeAvailableBalance():LiveData<String>
     @Query("SELECT pending_received_balance FROM Balance")

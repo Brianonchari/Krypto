@@ -11,10 +11,13 @@ import com.app.krypto.data.remote.responses.Address
 interface AddressDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAddress(address: Address)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAddresses(address: List<Address>)
+
     @Delete
     suspend fun deleteAddress(address: Address)
+
     @Query("SELECT * FROM Address")
-    fun observeAllAddresses():LiveData<List<Address>>
+    fun observeAllAddresses(): LiveData<List<Address>>
 }

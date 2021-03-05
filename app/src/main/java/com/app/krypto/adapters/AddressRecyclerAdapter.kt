@@ -1,21 +1,28 @@
 package com.app.krypto.adapters
 
+import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.Fade
+import androidx.transition.Slide
+import androidx.transition.TransitionManager
 import com.app.krypto.data.remote.responses.Address
 import com.app.krypto.databinding.AddressItemBinding
-import dagger.assisted.AssistedInject
 import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
  *Created by Brian Onchari on 16/01/2021.
  */
-class AddressRecyclerAdapter:
-    RecyclerView.Adapter<AddressRecyclerAdapter.ViewHolder>() {
+class AddressRecyclerAdapter @Inject constructor() : RecyclerView.Adapter<AddressRecyclerAdapter.ViewHolder>() {
+
+    private var visibility = false
+
     inner class ViewHolder(val binding: AddressItemBinding) : RecyclerView.ViewHolder(binding.root)
 
     private val differCallBack = object : DiffUtil.ItemCallback<Address>() {
@@ -45,6 +52,13 @@ class AddressRecyclerAdapter:
         holder.binding.label.text = addressesList.label
         holder.binding.availableBalance.text = addressesList.available_balance
         holder.binding.pendingBalance.text = addressesList.pending_received_balance
-    }
+        holder.binding.address.text = addressesList.address
 
+        holder.itemView.setOnClickListener {
+            val transition = Slide(Gravity.START)
+            TransitionManager.beginDelayedTransition(holder.binding.parentLayout, transition)
+            holder.binding.address.visibility = if (visibility) View.INVISIBLE else View.VISIBLE
+            visibility = !visibility
+        }
+    }
 }

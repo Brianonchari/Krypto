@@ -29,7 +29,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-    @Singleton
     @Provides
     fun providesAppDatabase(@ApplicationContext context: Context) = Room.databaseBuilder(
         context, AppDatabase::class.java,
