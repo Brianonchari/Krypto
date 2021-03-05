@@ -1,0 +1,147 @@
+ext {
+
+    kotlin_version = "1.4.21"
+
+    def coreKtxVersion = '1.3.2'
+    def appcompatVersion = '1.2.0'
+    def materialComponentsVersion = '1.3.0'
+    def constraintLayoutVersion = '2.0.4'
+    def fragmentKtxVersion = '1.3.0'
+
+    coroutines = '1.3.7'
+    coroutines_play_services = "1.3.7"
+
+    /**Firebase**/
+    def firebaseAnalyticsKtxVersion = '18.0.2'
+    def firebaseAuthVersion = '20.0.2'
+    def firestoreVersion = '22.1.0'
+    def firebasePlatform = '26.2.0'
+
+    /**Retrofit**/
+    def retrofitSquareVersion = '2.9.0'
+    def gsonConverterVersion = '2.9.0'
+    def loggingInterceptor = '4.7.2'
+    /** Lifecycle**/
+    def lifecycleExtensionVersion = '2.2.0'
+    def liveDataKtxVersion = '2.3.0'
+    def lifecycleRuntiveKtxVersion = '2.3.0'
+    def viewModelKtxVersion = '2.3.0'
+    def activityKtxVersion = '1.3.0-alpha02'
+
+    //Room
+    def roomVersion = '2.2.6'
+    def kaptRoomVersion = '2.2.6'
+    def roomKtxVersiom = '2.2.6'
+
+    //ScannerView, Zxing QR code
+    def scannerViewVersion = '2.1.0'
+    def qrgeneratortVersion = '1.0.3'
+    def zxingCoreVersion = '3.3.3'
+    def zxingAndroidEmbededVersion = '3.2.0@aar'
+
+    //Hilt
+    def hiltVersion = '2.31-alpha'
+    def kaptVersion = '2.31.2-alpha'
+    def hiltViewmodelVersion = '1.0.0-alpha03'
+
+    //Naivagion
+    navigationKtxVersion = '2.3.3'
+
+    //tests
+    def junitVersion = '4.13.2'
+    def junitAndroidVersion = '1.1.2'
+    def truthVersion = '1.1.1'
+    def esspressoCoreVersion = '2.1.0'
+    def expressoContribVersion = '3.3.0'
+    def archCoreVersion = '2.1.0'
+    def coroutinestestKtxVersion = '1.2.1'
+    def androidxFragmentTestVersion = '1.3.0-beta01'
+    def mockitoVersion = '2.23.0'
+    def dexmakerMarkerVersion = '2.12.1'
+    def hiltAndroidTesting = '2.28-alpha'
+    def hiltCompilerVersion = '2.31.2-alpha'
+    def fragmentTestVersion = '1.3.0-beta01'
+
+    generalDependancies = [
+            kotlin            : "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version",
+            coreKtx           : "androidx.core:core-ktx:$coreKtxVersion",
+            appCompat         : "androidx.appcompat:appcompat:$appcompatVersion",
+            materialComponents: "com.google.android.material:material:$materialComponentsVersion",
+            constraintLayout  : "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion",
+            fragment          : "androidx.fragment:fragment-ktx:$fragmentKtxVersion"
+    ]
+
+    navigation = [
+            fragment: "androidx.navigation:navigation-fragment-ktx:$navigationKtxVersion",
+            ui      : "androidx.navigation:navigation-ui-ktx:$navigationKtxVersion"
+    ]
+
+    firebase = [
+            auth     : "com.google.firebase:firebase-auth:$firebaseAuthVersion",
+            platform : ("com.google.firebase:firebase-bom:$firebasePlatform"),
+            analytics: "com.google.firebase:firebase-analytics-ktx:$firebaseAnalyticsKtxVersion",
+            firestore:"com.google.firebase:firebase-firestore-ktx:$firestoreVersion"
+    ]
+
+    coroutinesDependencies = [
+            coroutinesCore        : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines",
+            coroutinesAndroid     : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines",
+            coroutinesPlayServices: "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutines_play_services"
+    ]
+
+    roomDependencies = [
+            room   : "androidx.room:room-runtime:$roomVersion",
+            roomKtx: "androidx.room:room-ktx:$roomKtxVersiom"
+    ]
+
+    scannerViewDependancies = [
+            scannerview: "com.budiyev.android:code-scanner:$scannerViewVersion",
+            qrgenerator: "androidmads.library.qrgenearator:QRGenearator:$qrgeneratortVersion",
+            zxing      : "com.google.zxing:core:$zxingCoreVersion",
+            journeyapps: "com.journeyapps:zxing-android-embedded:$zxingAndroidEmbededVersion"
+
+    ]
+
+    networkDependencies = [
+            retrofit       : "com.squareup.retrofit2:retrofit:$retrofitSquareVersion",
+            gson           : "com.squareup.retrofit2:converter-gson:$gsonConverterVersion",
+            httpInterceptor: "com.squareup.okhttp3:logging-interceptor:$loggingInterceptor"
+    ]
+
+    lifecyleDependencies = [
+            extension         : "androidx.lifecycle:lifecycle-extensions:$lifecycleExtensionVersion",
+            livedata          : "androidx.lifecycle:lifecycle-livedata-ktx:$liveDataKtxVersion",
+            runtime           : "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleRuntiveKtxVersion",
+            activity          : "androidx.activity:activity-ktx:$activityKtxVersion",
+            viewmodel         : "androidx.lifecycle:lifecycle-viewmodel-ktx:$viewModelKtxVersion",
+
+            //Coroutine Lifecycle Scopes
+            lifecycleViewModel: "androidx.lifecycle:lifecycle-viewmodel-ktx:$viewModelKtxVersion",
+
+    ]
+
+    dependencyInjection = [
+            hilt     : "com.google.dagger:hilt-android:$hiltVersion",
+            viewmodel: "androidx.hilt:hilt-lifecycle-viewmodel:$hiltViewmodelVersion",
+    ]
+
+    annotations = [
+            room: "androidx.room:room-compiler:$kaptRoomVersion",
+            hilt: "com.google.dagger:hilt-android-compiler:$kaptVersion"
+    ]
+
+    testDependancies = [
+            coroutines     : "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinestestKtxVersion",
+            arch           : "androidx.arch.core:core-testing:$archCoreVersion",
+            junit          : "junit:junit:$junitVersion",
+            junitAndroid   : "androidx.test.ext:junit:$junitAndroidVersion",
+            truth          : "com.google.truth:truth:$truthVersion",
+            espresso       : "androidx.test.espresso:espresso-core:$esspressoCoreVersion",
+            espressoContrib: "androidx.test.espresso:espresso-contrib:$expressoContribVersion",
+            dexmarker      : "com.linkedin.dexmaker:dexmaker-mockito:$dexmakerMarkerVersion",
+            mockito        : "org.mockito:mockito-core:$mockitoVersion",
+            hilt           : "com.google.dagger:hilt-android-testing:$hiltAndroidTesting",
+            hiltCompiler   : "com.google.dagger:hilt-android-compiler:$hiltCompilerVersion",
+            fragment       : "androidx.fragment:fragment-testing:$fragmentTestVersion"
+    ]
+}
